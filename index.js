@@ -41,46 +41,60 @@ function createTimeOutEvent(bpRecord, dateStamp) {
   return bpRecord
 }
 
-function hoursWorkedOnDate(obj, dateStamp) {
-  // console.log(obj)
-  // console.log(dateStamp)
-  let inHr = (obj.timeInEvents[0].hour)/100
-  let outHr = (obj.timeOutEvents[0].hour)/100
-  return outHr - inHr
+// function hoursWorkedOnDate(obj, dateStamp) {
+//   // console.log(obj)
+//   // console.log(dateStamp)
+//   let inHr = (obj.timeInEvents[0].hour)/100
+//   let outHr = (obj.timeOutEvents[0].hour)/100
+//   return outHr - inHr
+// }
+
+function hoursWorkedOnDate(employee, soughtDate){
+  let inEvent = employee.timeInEvents.find(function(e){
+      return e.date === soughtDate
+  })
+
+  let outEvent = employee.timeOutEvents.find(function(e){
+      return e.date === soughtDate
+  })
+
+  return (outEvent.hour - inEvent.hour) / 100
 }
+
 
 // function wagesEarnedOnDate(obj, dateStamp) {
 //   return hoursWorkedOnDate(obj, dateStamp) * obj.payPerHour
 // }
 
-function wagesEarnedOnDate(dateSought){
-  // console.log(dateSought)
-  let rawWage = hoursWorkedOnDate(this, dateSought)
-      * this.payPerHour
+
+function wagesEarnedOnDate(employee, dateSought){
+  let rawWage = hoursWorkedOnDate(employee, dateSought)
+      * employee.payPerHour
   return parseFloat(rawWage.toString())
 }
 
-
-// let eligibleDates = this.timeInEvents.map(function (e) {
-  //     return e.date
-  // })
-
-  // let payable = eligibleDates.reduce(function (memo, d) {
-  //     return memo + wagesEarnedOnDate.call(this, d)
-  // }.bind(this), 0) 
-
-  // return payable
-
-function allWagesFor() {
-  let dates = this.timeInEvents.map(function(e){
-    return e.date
+function allWagesFor(employee){
+  let eligibleDates = employee.timeInEvents.map(function(e){
+      return e.date
   })
-  // console.log(dates)
-  let pay = dates.reduce(function(incrementor,date){
-      return incrementor + wagesEarnedOnDate(this,date)
-    }.bind(this), 0)
-   return pay
+
+  let payable = eligibleDates.reduce(function(memo, d){
+      return memo + wagesEarnedOnDate(employee, d)
+  }, 0)
+
+  return payable
 }
+
+// function allWagesFor() {
+//   let dates = this.timeInEvents.map(function(e){
+//     return e.date
+//   })
+//   // console.log(dates)
+//   let pay = dates.reduce(function(incrementor,date){
+//       return incrementor + wagesEarnedOnDate(this,date)
+//     }.bind(this), 0)
+//    return pay
+// }
 
 
 function findEmployeeByFirstName(srcArray,firstName) {
@@ -94,8 +108,8 @@ function findEmployeeByFirstName(srcArray,firstName) {
   }
 }
 
-function calculatePayroll(empArr) {
-  
-  // wagesEarnedOnDate
-  // return
+function calculatePayroll(arrayOfEmployeeRecords){
+  return arrayOfEmployeeRecords.reduce(function(memo, rec){
+      return memo + allWagesFor(rec)
+  }, 0)
 }
