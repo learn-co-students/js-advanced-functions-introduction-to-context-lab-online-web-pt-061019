@@ -1,25 +1,3 @@
-cRecord = createEmployeeRecord(["Julius", "Caesar", "General", 1000])
-updatedBpRecord = createTimeInEvent(cRecord, "0044-03-15 0900")
-updatedBpRecord = createTimeOutEvent(cRecord, "0044-03-15 1100")
-updatedBpRecord2 = createTimeInEvent(cRecord, "0045-02-15 1000")
-updatedBpRecord2 = createTimeOutEvent(cRecord, "0045-02-15 1800")
-
-cRecord2 = createEmployeeRecord(["Nubbinz", "Hibberd", "Lord Ruler", 3000])
-updatedBpRecord = createTimeInEvent(cRecord2, "0044-03-15 0900")
-updatedBpRecord = createTimeOutEvent(cRecord2, "0044-03-15 1100")
-updatedBpRecord2 = createTimeInEvent(cRecord2, "0045-02-15 1000")
-updatedBpRecord2 = createTimeOutEvent(cRecord2, "0045-02-15 1800")
-
-employees = [cRecord, cRecord2]
-calculatePayroll(employees)
-
-let src = [
-    ["Loki", "Laufeysson-Odinsson", "HR Representative", 35],
-    ["Natalia", "Romanov", "CEO", 150]
-  ]
-  let emps = createEmployeeRecords(src)
-  let loki = findEmployeeByFirstName(emps, "Loki")
-
 // Your code here
 function createEmployeeRecord(array) {
     const newRecord = {
